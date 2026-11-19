@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прокат настольных игр</title>
+</head>
+
+<body>
+    <h1>Прокат настольных игр</h1>
+    <ul id="gameList"></ul>
+
+    <label for="gameSelect">Игра</label>
+    <select id="gameSelect">
+        <option value="0">Каркассон</option>
+        <option value="1">Доббль</option>
+        <option value="2">Шахматы</option>
+    </select>
+
+    <label for="borrowerName">Имя посетителя</label>
+    <input id="borrowerName" type="text">
+    <button id="borrowButton" type="button">Выдать</button>
+    <button id="returnButton" type="button">Вернуть</button>
+    <p id="message"></p>
+    <script>
+        const gameList = document.getElementById('gameList')
+        const gameSelect = document.getElementById('gameSelect')
+        const borrowerName = document.getElementById('borrowerName')
+        const borrowButton = document.getElementById('borrowButton')
+        const returnButton = document.getElementById('returnButton')
+        const message = document.getElementById('message')
+
+        const games = [
+            {title: "Каркассон", players: 4, borrower: null},
+            {title: "Доббль", players: 6, borrower: 'Аня'},
+            {title: "Шахматы", players: 2, borrower: null},
+        ]
+        
+    </script>
+</body>
+
+</html>

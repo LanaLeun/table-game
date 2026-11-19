@@ -9,6 +9,9 @@
 
 <body>
     <h1>Прокат настольных игр</h1>
+    <input type="checkbox" id="showHint">
+    <label for="showHint">Только свободные</label>
+    <p id="hint"></p>
     <ul id="gameList"></ul>
 
     <label for="gameSelect">Игра</label>
@@ -23,6 +26,8 @@
     <button id="borrowButton" type="button">Выдать</button>
     <button id="returnButton" type="button">Вернуть</button>
     <p id="message"></p>
+
+    
     <script>
         const gameList = document.getElementById('gameList')
         const gameSelect = document.getElementById('gameSelect')
@@ -30,6 +35,8 @@
         const borrowButton = document.getElementById('borrowButton')
         const returnButton = document.getElementById('returnButton')
         const message = document.getElementById('message')
+        const showHint = document.getElementById('showHint');
+        const hint = document.getElementById('hint');
 
         const games = [
             { title: "Каркассон", players: 4, borrower: null },
@@ -39,7 +46,16 @@
         function rendergames() {
             gameList.innerHTML = ""
 
-            games.forEach((game) => {
+            if (showHint.checked){
+                games.forEach((game) => {
+                const item = document.createElement('li')
+                if (game.borrower === null) {
+                    item.textContent = `${game.title} · ${game.players} · Свободна`
+                } 
+                gameList.append(item);
+            })
+            } else {
+                games.forEach((game) => {
                 const item = document.createElement('li')
                 if (game.borrower === null) {
                     item.textContent = `${game.title} · ${game.players} · Свободна`
@@ -48,12 +64,14 @@
                 }
                 gameList.append(item);
             })
+            }
+            
         }
         rendergames()
 
         function getSelectedGame() {
-                return games[Number(gameSelect.value)];
-            }
+            return games[Number(gameSelect.value)];
+        }
 
         borrowButton.addEventListener('click', () => {
             const ngames = gameSelect.value
@@ -79,13 +97,16 @@
 
         returnButton.addEventListener('click', () => {
             const game = getSelectedGame();
-            if (game.borrower !== null){
+            if (game.borrower !== null) {
                 game.borrower = null
                 message.textContent = "Игра возвращена"
                 rendergames()
             } else {
                 message.textContent = "Игра уже свободна"
             }
+        })
+        showHint.addEventListener('change', () => {
+            rendergames()
         })
     </script>
 </body>

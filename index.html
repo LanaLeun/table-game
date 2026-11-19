@@ -32,11 +32,61 @@
         const message = document.getElementById('message')
 
         const games = [
-            {title: "Каркассон", players: 4, borrower: null},
-            {title: "Доббль", players: 6, borrower: 'Аня'},
-            {title: "Шахматы", players: 2, borrower: null},
+            { title: "Каркассон", players: 4, borrower: null },
+            { title: "Доббль", players: 6, borrower: 'Аня' },
+            { title: "Шахматы", players: 2, borrower: null },
         ]
-        
+        function rendergames() {
+            gameList.innerHTML = ""
+
+            games.forEach((game) => {
+                const item = document.createElement('li')
+                if (game.borrower === null) {
+                    item.textContent = `${game.title} · ${game.players} · Свободна`
+                } else {
+                    item.textContent = `${game.title} · ${game.players} · Взял(а): ${game.borrower}`
+                }
+                gameList.append(item);
+            })
+        }
+        rendergames()
+
+        function getSelectedGame() {
+                return games[Number(gameSelect.value)];
+            }
+
+        borrowButton.addEventListener('click', () => {
+            const ngames = gameSelect.value
+            const index = Number(ngames)
+
+            if (isNaN(index) || index < 0 || index >= games.length) {
+                alert('Некорректный выбор игры');
+                return;
+            }
+
+            const game = getSelectedGame();
+            const borname = borrowerName.value.trim()
+            if (borname === '') {
+                message.textContent = "Введите имя"
+            } else if (game.borrower !== null) {
+                message.textContent = "Игра уже выдана"
+            } else {
+                game.borrower = borname
+                message.textContent = "Игра выдана"
+                rendergames()
+            }
+        })
+
+        returnButton.addEventListener('click', () => {
+            const game = getSelectedGame();
+            if (game.borrower !== null){
+                game.borrower = null
+                message.textContent = "Игра возвращена"
+                rendergames()
+            } else {
+                message.textContent = "Игра уже свободна"
+            }
+        })
     </script>
 </body>
 

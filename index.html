@@ -27,7 +27,12 @@
     <button id="returnButton" type="button">Вернуть</button>
     <p id="message"></p>
 
-    
+    <lebel for="gameName">Название игры</lebel>
+    <input id="gameName" type="text">
+    <lebel for="gamePlayer">Число играков</lebel>
+    <input id="gamePlayer" type="text">
+    <button id="addButton" type="button">Добавить игру</button>
+    <p id="mes"></p>
     <script>
         const gameList = document.getElementById('gameList')
         const gameSelect = document.getElementById('gameSelect')
@@ -37,6 +42,11 @@
         const message = document.getElementById('message')
         const showHint = document.getElementById('showHint');
         const hint = document.getElementById('hint');
+        const gameName = document.getElementById('gameName')
+        const gamePlayer = document.getElementById('gamePlayer')
+        const gameBorrower = document.getElementById('gameBorrower')
+        const addButton = document.getElementById('addButton')
+        const mes = document.getElementById('mes')
 
         const games = [
             { title: "Каркассон", players: 4, borrower: null },
@@ -46,26 +56,26 @@
         function rendergames() {
             gameList.innerHTML = ""
 
-            if (showHint.checked){
+            if (showHint.checked) {
                 games.forEach((game) => {
-                const item = document.createElement('li')
-                if (game.borrower === null) {
-                    item.textContent = `${game.title} · ${game.players} · Свободна`
-                } 
-                gameList.append(item);
-            })
+                    const item = document.createElement('li')
+                    if (game.borrower === null) {
+                        item.textContent = `${game.title} · ${game.players} · Свободна`
+                    }
+                    gameList.append(item);
+                })
             } else {
                 games.forEach((game) => {
-                const item = document.createElement('li')
-                if (game.borrower === null) {
-                    item.textContent = `${game.title} · ${game.players} · Свободна`
-                } else {
-                    item.textContent = `${game.title} · ${game.players} · Взял(а): ${game.borrower}`
-                }
-                gameList.append(item);
-            })
+                    const item = document.createElement('li')
+                    if (game.borrower === null) {
+                        item.textContent = `${game.title} · ${game.players} · Свободна`
+                    } else {
+                        item.textContent = `${game.title} · ${game.players} · Взял(а): ${game.borrower}`
+                    }
+                    gameList.append(item);
+                })
             }
-            
+
         }
         rendergames()
 
@@ -91,6 +101,7 @@
             } else {
                 game.borrower = borname
                 message.textContent = "Игра выдана"
+                borrowerName.value = ""
                 rendergames()
             }
         })
@@ -107,6 +118,21 @@
         })
         showHint.addEventListener('change', () => {
             rendergames()
+        })
+
+        addButton.addEventListener('click', () => {
+            const gname = gameName.value.trim()
+            const gplayer = gamePlayer.value.trim()
+            if (gname === "" || gplayer === "" || isNaN(gplayer)) {
+                mes.textContent = "Некоректный ввод"
+            } else {
+                mes.textContent = "Игра добавлена"
+                const newGame = { title: gname, players: gplayer, borrower: null }
+                games.push(newGame)
+                gameName.value = ""
+                gamePlayer.value = ""
+                rendergames()
+            }
         })
     </script>
 </body>
